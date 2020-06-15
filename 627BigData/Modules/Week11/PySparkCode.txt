@@ -1,0 +1,44 @@
+PySpark Code for Final Project Recommendation
+1.
+First of all, make sure you installed the PySpark with your python environment. 
+https://blog.sicara.com/get-started-pyspark-jupyter-guide-tutorial-ae2fe84f594f
+ (Links to an external site.)
+
+2.
+Create the below “trainItem.data” file with all your training data in the format of “userID,ItemID,Score”. 
+For example, 
+199808,248969,90
+199808,2663,90
+…. 
+3. Create the training ratings objects
+from pyspark.mllib.recommendation import ALS, MatrixFactorizationModel, Rating
+train_data = sc.textFile(“trainItem.data")
+train_ratings = train_data.map(lambda l: l.split(','))\
+ .map(lambda l: Rating(int(l[0]), int(l[1]), float(l[2])))
+
+4. Train the model:
+Select the parameter and call the PySpark function ALS
+rank = 10
+numIterations = 10
+model = ALS.train(train_ratings, rank, numIterations)
+
+You will get the model. 
+ 
+ 5. As test data has no rating scores, we just append "0".
+Creat your test data “testItem.data" file with format “userID, trackID,0”,
+Like,
+199810,208019,0
+199810,74139,0
+…
+
+
+
+testFile = sc.testFile("testItem.data")
+test_ratings = testFile.map(lambda l: l.split(','))\
+ .map(lambda l: Rating(int(l[0]), int(l[1]), float(l[2])))
+
+6.Predict the test data rating scores from the training model:
+
+Only take the first two fields -- userID & TrackID for prediction.
+testdata = test_ratings.map(lambda p: (p[0], p[1]))
+predictions = model.predictAll(testdata).map(lambda r: ((r[0], r[1]), r[2]))

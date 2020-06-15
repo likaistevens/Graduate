@@ -1,0 +1,28 @@
+gc() 
+Data2 = read.csv("/Users/kaili/Stevens/627BigData/HW2/EE627A_HW2_Q2.csv",header=F)
+head(Data2)
+dev.new()
+plot(Data2[,1])
+
+dev.new()
+par(mfrow=c(1,2))
+acf(Data2)
+pacf(Data2)
+
+tt2<- arima(Data2,c(0,0,2))
+dev.new()
+par(mfrow=c(1,2))
+acf(tt2$residuals)
+pacf(tt2$residuals)
+
+tt3<- arima(Data2,c(0,0,3))
+dev.new()
+par(mfrow=c(1,2))
+acf(tt3$residuals)
+pacf(tt3$residuals)
+
+tt4<- arima(Data2,c(0,0,4))
+dev.new()
+par(mfrow=c(1,2))
+acf(tt4$residuals)
+pacf(tt4$residuals)

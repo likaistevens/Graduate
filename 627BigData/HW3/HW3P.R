@@ -1,0 +1,10 @@
+library(aod)
+library(ggplot2)
+library(pROC)
+rm(list = ls())
+gc()
+Data1 = read.csv("/Users/kaili/Stevens/627BigData/HW3/HW3_P1.csv", header = F)
+
+h <- roc(V2 ~ V1, data = Data1)
+plot(h)
+auc(h)

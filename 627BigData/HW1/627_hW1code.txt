@@ -1,0 +1,24 @@
+Code:
+>> M=csvread('EE627A_HW1_Data.csv',1,1);
+>> x=M(:,1);
+>> y=M(:,2:end);
+>> AllIndustry=corrcoef([x y]);
+>> % This is all industry correlation matrix
+>> %
+>> % Four-factor model
+>> z=M(:,[2 3 5]);
+>> FourFactor=corrcoef([x z]);
+>> % RF correlation
+>> RFCorr=AllIndustry(:,4);
+>> % ACF for time-lag 1 to time-lag 10
+>> MKT=M(:,1);
+>> SMB=M(:,2);
+>> HML=M(:,3);
+>> MOM=M(:,5);
+>> parcorr(MKT,'Numlags',10);
+>> parcorr(SMB, 'Numlags',10);
+>> parcorr(HML, ’Numlags',10);
+>> parcorr(MOM, 'Numlags',10);
+
+
+627 Data Acquisition/ProcI HW1
